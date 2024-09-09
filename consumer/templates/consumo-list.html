@@ -1,0 +1,6 @@
+<h2>Lista de Consumidores</h2>
+<ul>
+    {% for consumer in consumers %}
+        <li>Nome: {{ consumer.name }} - Consumo: {{ consumer.consumption }} kWh - Tipo: {{ consumer.type }}</li>
+    {% endfor %}
+</ul>

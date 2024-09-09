@@ -1,0 +1,56 @@
+<h1>Calculadora de Economia de Energia</h1>
+<form id="calculator-form">
+    <label>Mês 1:</label>
+    <input type="number" id="month1" required><br>
+    <label>Mês 2:</label>
+    <input type="number" id="month2" required><br>
+    <label>Mês 3:</label>
+    <input type="number" id="month3" required><br>
+    <label>Tarifa:</label>
+    <input type="number" id="distributor_tax" required><br>
+    <label>Tipo de Tarifa:</label>
+    <select id="tax_type" required>
+        <option value="Residencial">Residencial</option>
+        <option value="Comercial">Comercial</option>
+        <option value="Industrial">Industrial</option>
+    </select><br>
+    <button type="submit">Calcular</button>
+</form>
+
+<div id="result">
+    <h2>Resultados</h2>
+    <p>Economia Anual: <span id="annual_savings"></span></p>
+    <p>Economia Mensal: <span id="monthly_savings"></span></p>
+    <p>Desconto Aplicado: <span id="applied_discount"></span></p>
+    <p>Percentual de Cobertura: <span id="coverage"></span></p>
+</div>
+
+<script>
+    document.getElementById('calculator-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const data = {
+            month1: document.getElementById('month1').value,
+            month2: document.getElementById('month2').value,
+            month3: document.getElementById('month3').value,
+            distributor_tax: document.getElementById('distributor_tax').value,
+            tax_type: document.getElementById('tax_type').value,
+        };
+
+        fetch('/api/calculate/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            document.getElementById('annual_savings').textContent = result.annual_savings;
+            document.getElementById('monthly_savings').textContent = result.monthly_savings;
+            document.getElementById('applied_discount').textContent = result.applied_discount * 100 + '%';
+            document.getElementById('coverage').textContent = result.coverage + '%';
+        });
+    });
+</script>

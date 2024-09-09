@@ -1,0 +1,23 @@
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name">
+    
+    <label for="consumption">Consumo:</label>
+    <input type="number" id="consumption" name="consumption" step="0.01">
+    
+    <label for="type">Tipo:</label>
+    <select id="type" name="type">
+        <option value="Residencial">Residencial</option>
+        <option value="Comercial">Comercial</option>
+        <option value="Industrial">Industrial</option>
+    </select>
+    
+    <button type="submit">Cadastrar</button>
+</form>
+
+{% if success %}
+    <p>Cadastro realizado com sucesso!</p>
+{% elif error %}
+    <p>Erro no cadastro. Verifique os dados e tente novamente.</p>
+{% endif %}
